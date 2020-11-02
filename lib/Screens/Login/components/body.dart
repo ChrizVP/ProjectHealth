@@ -6,10 +6,45 @@ import 'package:ProjectHealth/components/rounded_button.dart';
 import 'package:ProjectHealth/components/rounded_input_field.dart';
 import 'package:ProjectHealth/components/rounded_password_field.dart';
 
-class Body extends StatelessWidget {
-  const Body({
-    Key key,
-  }) : super(key: key);
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+class Body extends StatefulWidget {
+  @override
+  StateBody createState() => StateBody();
+}
+
+String email = "";
+String password = "";
+
+class StateBody extends State<Body> {
+  signIn(String email, pass) async {
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    Map data = {'email': email, 'password': pass};
+    var jsonResponse = null;
+
+    var response =
+        await http.post("http://192.168.1.3:3000/signin", body: data);
+    if (response.statusCode == 200) {
+      jsonResponse = json.decode(response.body);
+      print('Response status: ${response.statusCode}');
+      print('Response body: ${response.body}');
+      if (jsonResponse != null) {
+        sharedPreferences.setString("token", jsonResponse['token']);
+
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+                builder: (BuildContext context) => SignUpScreen()),
+            (Route<dynamic> route) => false);
+      }
+    } else {
+      print(response.body);
+    }
+  }
+
+  final TextEditingController emailController = new TextEditingController();
+  final TextEditingController passwordController = new TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +61,22 @@ class Body extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {},
+              onChanged: (value) {
+                email = value;
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                password = value;
+              },
             ),
             RoundedButton(
               text: "LOGIN",
-              press: () {},
+              press: () {
+                if (email != "" && password != "") {
+                  signIn(email, password);
+                }
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(

@@ -1,6 +1,9 @@
+import 'package:ProjectHealth/Screens/Signup/signup_screen.dart';
 import 'package:ProjectHealth/Screens/Welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -11,14 +14,24 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(
-        Duration(seconds: 5),
-        () => //Navigator.push(
-            //context,
-            //MaterialPageRoute(builder: (context) => PaginaPrincipal()),
-            //)
-            Navigator.of(context)
-                .pushReplacement(MaterialPageRoute(builder: (_) => Welcome())));
+    Timer(Duration(seconds: 5), () => checkLoginStatus()
+        //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => Welcome()))
+        );
+  }
+
+  SharedPreferences sharedPreferences;
+
+  checkLoginStatus() async {
+    sharedPreferences = await SharedPreferences.getInstance();
+    if (sharedPreferences.getString("token") == null) {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => Welcome()),
+          (Route<dynamic> route) => false);
+    } else {
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (BuildContext context) => SignUpScreen()),
+          (Route<dynamic> route) => false);
+    }
   }
 
   @override
