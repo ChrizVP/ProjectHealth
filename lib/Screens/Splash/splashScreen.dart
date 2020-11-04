@@ -1,7 +1,9 @@
-import 'package:ProjectHealth/Screens/Signup/signup_screen.dart';
+import 'package:ProjectHealth/Screens/Dashboard/dashboard_screen.dart';
+import 'package:ProjectHealth/Screens/Login/services/loginService.dart';
 import 'package:ProjectHealth/Screens/Welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 5), () => checkLoginStatus()
-        //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => Welcome()))
+        //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => DashboardScreen())),
         );
   }
 
@@ -23,13 +25,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   checkLoginStatus() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    if (sharedPreferences.getString("token") == null) {
+    // ignore: avoid_init_to_null
+    var jsonResponse = null;
+    var response = await LoginService().getUserToken();
+    jsonResponse = json.decode(response.body);
+    if (jsonResponse['token'] != null) {
+      sharedPreferences.setString("token", jsonResponse['token']);
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => Welcome()),
+          MaterialPageRoute(
+              builder: (BuildContext context) => DashboardScreen()),
           (Route<dynamic> route) => false);
     } else {
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (BuildContext context) => SignUpScreen()),
+          MaterialPageRoute(builder: (BuildContext context) => Welcome()),
           (Route<dynamic> route) => false);
     }
   }
