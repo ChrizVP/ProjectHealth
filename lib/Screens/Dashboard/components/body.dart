@@ -31,7 +31,7 @@ class StateBody extends State<Body> {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text('Navigation Drawer', style: TextStyle(color: Colors.white)),
+        title: Text('Dashboard', style: TextStyle(color: Colors.white)),
       ),
       drawer: Drawer(
         child: ListView(
