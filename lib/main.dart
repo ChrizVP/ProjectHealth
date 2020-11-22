@@ -1,4 +1,4 @@
-import 'package:ProjectHealth/Screens/Splash/splashScreen.dart';
+import 'package:ProjectHealth/src/Screens/Splash/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:ProjectHealth/constants.dart';
 
