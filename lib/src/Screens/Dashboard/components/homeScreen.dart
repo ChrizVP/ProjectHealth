@@ -1,7 +1,13 @@
+import 'package:ProjectHealth/src/Screens/Water/waterScreen.dart';
+import 'package:ProjectHealth/src/Screens/Weight/weightScreen.dart';
+import 'package:ProjectHealth/src/models/weightModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
+  final Weight weight;
+  HomeScreen(this.weight);
+
   @override
   _HomeScreen createState() => _HomeScreen();
 }
@@ -65,7 +71,16 @@ class _HomeScreen extends State<HomeScreen> {
                           child: FlatButton(
                             //padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                             color: Colors.greenAccent,
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) {
+                                    return WeightScreen();
+                                  },
+                                ),
+                              );
+                            },
                             child: Text(
                               "Register",
                               style: TextStyle(color: Colors.white),
@@ -82,7 +97,10 @@ class _HomeScreen extends State<HomeScreen> {
                           vertical: 5,
                         ),
                         child: Text(
-                          "-- KG",
+                          (widget.weight.value != null
+                                  ? widget.weight.value.toString()
+                                  : "--") +
+                              " Kg",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -123,7 +141,16 @@ class _HomeScreen extends State<HomeScreen> {
                         child: FlatButton(
                           //padding: EdgeInsets.symmetric(vertical: 0, horizontal: 20),
                           color: Colors.greenAccent,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return WaterScreen();
+                                },
+                              ),
+                            );
+                          },
                           child: Text(
                             "Register",
                             style: TextStyle(color: Colors.white),
@@ -139,7 +166,7 @@ class _HomeScreen extends State<HomeScreen> {
                           vertical: 5,
                         ),
                         child: Text(
-                          "1 vaso",
+                          "0 glasses",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -196,7 +223,7 @@ class _HomeScreen extends State<HomeScreen> {
                           vertical: 5,
                         ),
                         child: Text(
-                          "--/-- mg/dl",
+                          "--/-- bpm",
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,

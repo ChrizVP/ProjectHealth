@@ -1,20 +1,21 @@
-import 'package:ProjectHealth/src/Screens/Dashboard/components/comunityScreen.dart';
+import 'package:ProjectHealth/src/Screens/Dashboard/components/reportScreen.dart';
 import 'package:ProjectHealth/src/Screens/Dashboard/components/homeScreen.dart';
 import 'package:ProjectHealth/src/Screens/Dashboard/components/informationScreen.dart';
 import 'package:ProjectHealth/src/Screens/Login/login_screen.dart';
 import 'package:ProjectHealth/src/Screens/Profile/profileScreen.dart';
+import 'package:ProjectHealth/src/blocs/loginBloc.dart';
+import 'package:ProjectHealth/src/blocs/personBloc.dart';
+import 'package:ProjectHealth/src/blocs/userBloc.dart';
 import 'package:ProjectHealth/src/models/personModel.dart';
 import 'package:ProjectHealth/src/models/userModel.dart';
-import 'package:ProjectHealth/src/repository/dashboardRepository.dart';
-import 'package:ProjectHealth/src/repository/loginRepository.dart';
-import 'package:ProjectHealth/src/repository/personRepository.dart';
+import 'package:ProjectHealth/src/models/weightModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'dart:convert';
-
 class Body extends StatefulWidget {
+  final Weight weight;
+  Body(this.weight);
   @override
   StateBody createState() => StateBody();
 }
@@ -26,14 +27,8 @@ class StateBody extends State<Body> {
   Person _person = Person();
 
   logOut() async {
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    // ignore: avoid_init_to_null
-    var jsonResponse = null;
-
-    var response = await LogoutRepository().logout();
-    if (response.statusCode == 200) {
-      jsonResponse = json.decode(response.body);
-      sharedPreferences.setString("token", jsonResponse['token']);
+    var flagLogOut = await LoginBloc().logOut();
+    if (flagLogOut) {
       Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(builder: (BuildContext context) => LoginScreen()),
         ModalRoute.withName("/"),
@@ -41,30 +36,21 @@ class StateBody extends State<Body> {
     }
   }
 
-  void getUser() async {
+  getUser() async {
     sharedPreferences = await SharedPreferences.getInstance();
-    //var resPerson = await PersonRepository().getPerson(sharedPreferences.get('token'));
-    var resUser =
-        await LoginRepository().getUser(sharedPreferences.get('token'));
-    if (resUser.statusCode == 200) {
+    var resUser = await UserBloc().getUser();
+    if (resUser != null) {
       setState(() {
-        var _resUser = json.decode(resUser.body);
-        _user.username = _resUser['username'];
-        _user.email = _resUser['email'];
+        _user = resUser;
       });
     }
   }
 
-  void getPerson() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    var resPerson =
-        await PersonRepository().getPerson(sharedPreferences.get('token'));
-    if (resPerson.statusCode == 200) {
+  getPerson() async {
+    var resPerson = await PersonBloc().getPerson();
+    if (resPerson != null) {
       setState(() {
-        var _resPerson = json.decode(resPerson.body);
-        _person.name = _resPerson[0]['name'];
-        _person.lastName = _resPerson[0]['lastName'];
-        _person.age = _resPerson[0]['age'];
+        _person = resPerson;
       });
     }
   }
@@ -101,10 +87,6 @@ class StateBody extends State<Body> {
               ),
             ),
             ListTile(
-              leading: Icon(Icons.message),
-              title: Text('Registrar Datos'),
-            ),
-            ListTile(
               leading: Icon(Icons.account_circle),
               title: Text('Profile'),
               onTap: () {
@@ -132,7 +114,6 @@ class StateBody extends State<Body> {
       ),
 
       // -- start card
-
       body: buildContainer(_currentIndex),
       // -- end card
 
@@ -148,7 +129,7 @@ class StateBody extends State<Body> {
           BottomNavigationBarItem(
             icon: Icon(Icons.supervisor_account),
             // ignore: deprecated_member_use
-            title: Text('Comunity'),
+            title: Text('Report'),
             backgroundColor: Colors.white,
           ),
           BottomNavigationBarItem(
@@ -170,11 +151,9 @@ class StateBody extends State<Body> {
   // ignore: missing_return
   Widget buildContainer(int index) {
     if (index == 0)
-      return HomeScreen();
+      return HomeScreen(widget.weight);
     else if (index == 1)
-      return ComunityScreen(
-        _person.name,
-      );
+      return ReportScreen(_person, widget.weight);
     else if (index == 2) return InformationScreen();
   }
 }

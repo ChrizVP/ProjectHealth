@@ -1,12 +1,18 @@
 import 'package:http/http.dart' as http;
 
 class URLS {
-  static const String BASE_URL = 'http://192.168.1.3:3000/api/person';
+  static const String BASE_URL = 'http://192.168.1.6:3000/api/person';
 }
 
 class PersonService {
-  Future<http.Response> createPerson(Map data) async {
-    return await http.post('${URLS.BASE_URL}/', body: data);
+  Future<http.Response> createPerson(Map data, String token) async {
+    Map<String, String> requestHeaders = {
+      'Content-type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      "x.access-token": token,
+    };
+    return await http.post('${URLS.BASE_URL}/',
+        body: data, headers: requestHeaders);
   }
 
   Future<http.Response> getPerson(String token) async {

@@ -1,19 +1,32 @@
 import '../models/userModel.dart';
 
 class Weight {
-  String _value;
+  String _id;
+  double _value;
   DateTime _date;
   User _userId;
 
-  Weight(weight) {
-    _value = weight['value'];
-    _date = weight['date'];
-    _userId = weight['userId'];
+  String get id => this._id;
+
+  double get value => this._value;
+
+  DateTime get date => this._date;
+
+  User get userId => this._userId;
+
+  set id(String id) {
+    _id = id;
   }
 
-  String get value => _value;
+  set value(double value) {
+    _value = value;
+  }
 
-  DateTime get date => _date;
+  set date(DateTime date) {
+    _date = date;
+  }
 
-  User get userId => _userId;
+  set userId(User userId) {
+    _userId = userId;
+  }
 }

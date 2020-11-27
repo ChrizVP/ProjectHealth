@@ -1,6 +1,12 @@
+import 'dart:async';
+
 import 'package:ProjectHealth/src/Screens/Dashboard/dashboard_screen.dart';
+import 'package:ProjectHealth/src/Screens/Profile/profileScreen.dart';
+import 'package:ProjectHealth/src/blocs/personBloc.dart';
 import 'package:ProjectHealth/src/components/rounded_button.dart';
+import 'package:ProjectHealth/src/components/text_field_input.dart';
 import 'package:ProjectHealth/src/models/personModel.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Body extends StatefulWidget {
@@ -11,7 +17,30 @@ class Body extends StatefulWidget {
 }
 
 class StateBody extends State<Body> {
-  bool showPassword = false;
+  Person _person = Person();
+
+  @override
+  void initState() {
+    _person.name = widget.person.name;
+    _person.lastName = widget.person.lastName;
+    _person.age = widget.person.age;
+    _person.size = widget.person.size;
+    super.initState();
+  }
+
+  createOrUpdatePerson(Person _person) async {
+    var flagPerson = await PersonBloc().createOrUpdatePerson(_person);
+    if (flagPerson) {
+      _showAlertSuccess(context);
+      Timer(
+          Duration(seconds: 1),
+          () => Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                  builder: (BuildContext context) => ProfileScreen(_person)),
+              (Route<dynamic> route) => false));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,23 +124,49 @@ class StateBody extends State<Body> {
               SizedBox(
                 height: 35,
               ),
-              buildTextField(
-                  "Name",
-                  (widget.person.name != null ? widget.person.name : " "),
-                  false),
-              buildTextField(
-                  "Last Name",
-                  (widget.person.lastName != null
-                      ? widget.person.lastName
-                      : " "),
-                  false),
-              //buildTextField("Password", "********", true),
-              buildTextField(
-                  "Age",
-                  (widget.person.age != null
-                      ? widget.person.age.toString()
-                      : " "),
-                  false),
+              TextFieldInput(
+                labelText: "Name",
+                placeholder:
+                    (widget.person.name != null ? widget.person.name : " "),
+                onChanged: (value) {
+                  setState(() {
+                    _person.name = value;
+                  });
+                },
+              ),
+              TextFieldInput(
+                labelText: "Last Name",
+                placeholder: (widget.person.lastName != null
+                    ? widget.person.lastName
+                    : " "),
+                onChanged: (value) {
+                  setState(() {
+                    _person.lastName = value;
+                  });
+                },
+              ),
+              TextFieldInput(
+                labelText: "Age",
+                placeholder: (widget.person.age != null
+                    ? widget.person.age.toString()
+                    : " "),
+                onChanged: (value) {
+                  setState(() {
+                    _person.age = int.parse(value);
+                  });
+                },
+              ),
+              TextFieldInput(
+                labelText: "Size",
+                placeholder: (widget.person.size != null
+                    ? widget.person.size.toString()
+                    : " "),
+                onChanged: (value) {
+                  setState(() {
+                    _person.size = double.parse(value);
+                  });
+                },
+              ),
               SizedBox(
                 height: 10,
               ),
@@ -127,7 +182,14 @@ class StateBody extends State<Body> {
               ),
               RoundedButton(
                 text: "SAVE",
-                press: () {},
+                press: () {
+                  if (widget.person.name != _person.name ||
+                      widget.person.lastName != _person.lastName ||
+                      widget.person.age != _person.age ||
+                      widget.person.size != _person.size) {
+                    createOrUpdatePerson(_person);
+                  }
+                },
               ),
             ],
           ),
@@ -136,39 +198,19 @@ class StateBody extends State<Body> {
     );
   }
 
-  Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 35.0),
-      child: TextField(
-        obscureText: isPasswordTextField ? showPassword : false,
-        decoration: InputDecoration(
-            suffixIcon: isPasswordTextField
-                ? IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showPassword = !showPassword;
-                      });
-                    },
-                    icon: Icon(
-                      Icons.remove_red_eye,
-                      color: Colors.grey,
-                    ),
-                  )
-                : null,
-            contentPadding: EdgeInsets.only(bottom: 3),
-            labelText: labelText,
-            labelStyle: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            hintText: placeholder,
-            hintStyle: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-            )),
+  _showAlertSuccess(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: Text("Updated Successfully"),
+        ),
+        content: Icon(
+          Icons.check_circle,
+          color: Colors.greenAccent,
+          size: 80,
+        ),
       ),
     );
   }

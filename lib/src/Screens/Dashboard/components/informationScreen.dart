@@ -1,3 +1,4 @@
+import 'package:ProjectHealth/src/Screens/Dashboard/components/musicScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -263,36 +264,44 @@ class _MyInformationScreen extends State<InformationScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 150,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 20),
-                  height: categoryHeight,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/480x272/public/media/image/2017/10/267401-wallpaper-hd.jpg?itok=77X5bRba",
-                          )),
-                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 80),
-                          child: Text(
-                            "Music",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return MusicScreen();
+                    }));
+                  },
+                  child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    height: categoryHeight,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              "https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/480x272/public/media/image/2017/10/267401-wallpaper-hd.jpg?itok=77X5bRba",
+                            )),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 80),
+                            child: Text(
+                              "Music",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),

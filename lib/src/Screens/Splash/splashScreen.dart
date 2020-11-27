@@ -1,10 +1,8 @@
 import 'package:ProjectHealth/src/Screens/Dashboard/dashboard_screen.dart';
-import 'package:ProjectHealth/src/repository/loginRepository.dart';
 import 'package:ProjectHealth/src/Screens/Welcome/welcome.dart';
+import 'package:ProjectHealth/src/blocs/loginBloc.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -15,18 +13,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 5), () => checkLoginStatus()
-        //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => DashboardScreen())),
-        );
+    setState(() {
+      Timer(Duration(seconds: 5), () => this.checkLoginStatus()
+          //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => DashboardScreen())),
+          );
+    });
   }
 
-  SharedPreferences sharedPreferences;
-
   checkLoginStatus() async {
-    sharedPreferences = await SharedPreferences.getInstance();
-    var response =
-        await LoginRepository().verifySession(sharedPreferences.get('token'));
-    if (response.statusCode == 200) {
+    var flagStatus = await LoginBloc().checkLoginStatus();
+    if (flagStatus) {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (BuildContext context) => DashboardScreen()),

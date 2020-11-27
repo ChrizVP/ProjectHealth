@@ -1,19 +1,32 @@
 import '../models/userModel.dart';
 
 class Water {
+  String _id;
   String _value;
   DateTime _date;
   User _userId;
 
-  Water(water) {
-    _value = water['value'];
-    _date = water['date'];
-    _userId = water['userId'];
+  String get id => this._id;
+
+  String get value => this._value;
+
+  DateTime get date => this._date;
+
+  User get userId => this._userId;
+
+  set id(String id) {
+    _id = id;
   }
 
-  String get value => _value;
+  set value(String value) {
+    _value = value;
+  }
 
-  DateTime get date => _date;
+  set date(DateTime date) {
+    _date = date;
+  }
 
-  User get userId => _userId;
+  set userId(User userId) {
+    _userId = userId;
+  }
 }
