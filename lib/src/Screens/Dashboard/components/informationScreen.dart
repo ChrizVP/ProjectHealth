@@ -1,6 +1,13 @@
+import 'package:ProjectHealth/src/Screens/Dashboard/components/DetailDiet/DietThree.dart';
+import 'package:ProjectHealth/src/Screens/Dashboard/components/DetailDiet/DietTwo.dart';
+import 'package:ProjectHealth/src/Screens/Dashboard/components/DetailExercise/ExerciseOne.dart';
+import 'package:ProjectHealth/src/Screens/Dashboard/components/DetailExercise/ExerciseThree.dart';
+import 'package:ProjectHealth/src/Screens/Dashboard/components/DetailExercise/ExerciseTwo.dart';
 import 'package:ProjectHealth/src/Screens/Dashboard/components/musicScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'DetailDiet/DietOne.dart';
 
 class InformationScreen extends StatefulWidget {
   @override
@@ -13,58 +20,85 @@ class _MyInformationScreen extends State<InformationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        child: Column(children: <Widget>[
-          Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Text(
-                  "Programs",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      color: Colors.grey,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 30),
+        child: SingleChildScrollView(
+          child: Column(children: <Widget>[
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    "Dieta balanceada",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 30),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          AnimatedOpacity(
-            duration: const Duration(milliseconds: 200),
-            opacity: closeTopContainer ? 0 : 1,
-            child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                //alignment: Alignment.,
-                child: Programs()),
-          ),
-          Row(
-            //mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Text(
-                  "mindfulness",
-                  textAlign: TextAlign.right,
-                  style: TextStyle(
-                      color: Colors.grey,
-                      //fontWeight: FontWeight.bold,
-                      fontSize: 30),
+              ],
+            ),
+            AnimatedOpacity(
+              duration: const Duration(milliseconds: 200),
+              opacity: closeTopContainer ? 0 : 1,
+              child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  //alignment: Alignment.,
+                  child: Programs()),
+            ),
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Padding(
+                  padding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    "Ejercicios",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 30),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          AnimatedOpacity(
-            duration: const Duration(milliseconds: 200),
-            opacity: closeTopContainer ? 0 : 1,
-            child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                //alignment: Alignment.,
-                child: mindfulness()),
-          ),
-        ]),
+              ],
+            ),
+            AnimatedOpacity(
+              duration: const Duration(milliseconds: 200),
+              opacity: closeTopContainer ? 0 : 1,
+              child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  //alignment: Alignment.,
+                  child: Exercise()),
+            ),
+            Row(
+              //mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  child: Text(
+                    "Meditación",
+                    textAlign: TextAlign.right,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        //fontWeight: FontWeight.bold,
+                        fontSize: 30),
+                  ),
+                ),
+              ],
+            ),
+            AnimatedOpacity(
+              duration: const Duration(milliseconds: 200),
+              opacity: closeTopContainer ? 0 : 1,
+              child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  //alignment: Alignment.,
+                  child: mindfulness()),
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -84,57 +118,181 @@ class _MyInformationScreen extends State<InformationScreen> {
             alignment: Alignment.topCenter,
             child: Row(
               children: <Widget>[
-                Container(
-                  width: 150,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 20),
-                  height: categoryHeight,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            "https://www.ecestaticos.com/image/clipping/ce09e35b4221c94066d03522de626928/opening.jpg",
-                          )),
-                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                  child: Column(
-                    //crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 15, vertical: 70),
-                        child: Text(
-                          "Body exercise aimed at burning calories",
-                          style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return DietOne();
+                        //ComunityScreen(widget.person, widget.weight);
+                      },
+                    ));
+                  },
+                  child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    height: categoryHeight,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              "assets/images/fruit_granola.png",
+                            )),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    child: Column(
+                      //crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 70),
+                          child: Text(
+                            "Desayuno nutritivo",
+                            style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return DietTwo();
+                        //ComunityScreen(widget.person, widget.weight);
+                      },
+                    ));
+                  },
+                  child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    height: categoryHeight,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              "assets/images/keto_snack.png",
+                            )),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 80),
+                            child: Text(
+                              "Ensalada",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-                Container(
-                  width: 150,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 20),
-                  height: categoryHeight,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            "https://estaticos.muyinteresante.es/uploads/images/article/58500c795bafe812338b458a/correr-reunion_0.jpg",
-                          )),
-                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
+
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return DietThree();
+                        //ComunityScreen(widget.person, widget.weight);
+                      },
+                    ));
+                  },
+                  child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    height: categoryHeight,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              "assets/images/pesto_pasta.png",
+                            )),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 80),
+                            child: Text(
+                              "Almuerzo",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+
+              ],
+            ),
+          ),
+        ));
+  }
+
+  Exercise() {
+    final double categoryHeight =
+        MediaQuery.of(context).size.height * 0.30 - 50;
+
+    return SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        scrollDirection: Axis.horizontal,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
+          child: FittedBox(
+            fit: BoxFit.fill,
+            alignment: Alignment.topCenter,
+            child: Row(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return ExerciseOne();
+                        //ComunityScreen(widget.person, widget.weight);
+                      },
+                    ));
+                  },
+                  child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    height: categoryHeight,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              "assets/images/Planchasimage.jpg",
+                            )),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      //crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 80),
+                              horizontal: 15, vertical: 70),
                           child: Text(
-                            "From 1 step 5K",
+                            "Flexiones",
                             style: TextStyle(
                                 fontSize: 12,
                                 color: Colors.white,
@@ -145,38 +303,93 @@ class _MyInformationScreen extends State<InformationScreen> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 150,
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.only(right: 20),
-                  height: categoryHeight,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            "https://www.hola.com/imagenes/estar-bien/20200714171995/ejercicio-cuantos-abdominales-hacer-vientre-plano/0-846-703/abdominales-3a-a.jpg",
-                          )),
-                      borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 5, vertical: 80),
-                          child: Text(
-                            "Burn Calories 20 minutes per day",
-                            style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return ExerciseTwo();
+                        //ComunityScreen(widget.person, widget.weight);
+                      },
+                    ));
+                  },
+                  child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    height: categoryHeight,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              "assets/images/abdominales2.jpg",
+                            )),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 0, vertical: 80),
+                            child: Text(
+                              "Abdominales",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ),
+
+                GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        return ExerciseThree();
+                        //ComunityScreen(widget.person, widget.weight);
+                      },
+                    ));
+                  },
+                  child: Container(
+                    width: 150,
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(right: 20),
+                    height: categoryHeight,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: AssetImage(
+                              "assets/images/cardioImage.jpg",
+                            )),
+                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 5, vertical: 80),
+                            child: Text(
+                              "Cardio",
+                              style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                )
+
               ],
             ),
           ),
